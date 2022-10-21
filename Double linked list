@@ -1,0 +1,135 @@
+#include<iostream>
+using namespace std;
+struct Dlist{
+    struct Dlist *left;
+    int data;
+    struct Dlist *right;
+};
+struct Dlist *head=NULL;
+struct Dlist *create_list(int x)
+{
+    struct Dlist *ptr=(struct Dlist*)malloc(sizeof(struct Dlist));
+    ptr->data=x;
+    ptr->left=NULL;
+    ptr->right=NULL;
+    return ptr;
+}
+void insertbe(int key)
+{
+    struct Dlist *curr;
+    curr=create_list(key);
+    if (head==NULL)
+    {
+       head=curr;
+    }
+    else
+    {
+        head->left=curr;
+        curr->right=head;
+        head=curr;
+    }
+}
+void insertEnd(int key)
+{
+    struct Dlist *curr;
+    curr=create_list(key);
+    struct Dlist *temp=head;
+    if (temp==NULL)
+    {
+       head=curr;
+    }
+    else
+    {
+        while (temp->right!=NULL)
+        {
+            temp=temp->right;
+        }
+        temp->right=curr;
+        curr->left=temp;
+    } 
+}
+void Delbeg()
+{
+    if (head==NULL)
+    {
+        cout<<"Empty list"<<endl;
+    }
+    else
+    {
+        struct Dlist *temp=head;
+        head=head->right;
+        head->left=NULL;
+        delete temp; 
+    } 
+}
+void delEnd()
+{
+    struct Dlist *temp=head;
+    if (head==NULL)
+    {
+        cout<<"Empty list"<<endl;
+    }
+    else if (head->right==NULL)
+    {
+        delete head;
+        head=NULL;
+    }
+    else
+    {
+        while (temp->right!=NULL)
+        {
+            temp=temp->right;
+        }
+        temp->left->right=NULL;
+        delete temp;
+    } 
+}
+void Display()
+{
+    if (head==NULL)
+    {
+        cout<<"Empty list"<<endl;
+    }
+    else
+    {
+        struct Dlist *temp=head;
+        while (temp!=NULL)
+        {
+            cout<<temp->data<<" ";
+            temp=temp->right;
+        }
+        cout<<endl;
+    }
+}
+int main()
+{
+    int n,item;
+    do
+    { 
+        cout<<"Enter option\n1.Insert begining\n2.Insert End\n3.Delete begining\n4.Delete End\n5.Display\n0.Exit"<<endl;
+        cin>>n;
+        switch (n)
+        {
+        case 1:
+            cout<<"Enter insertimg element"<<endl;
+            cin>>item;
+            insertbe(item);
+            break;
+        case 2:
+            cout<<"Enter insertimg element"<<endl;
+            cin>>item;
+            insertEnd(item);
+            break;
+        case 3:
+            Delbeg();
+            break;
+        case 4:
+            delEnd();
+            break;
+        case 5:
+            Display();
+            break;
+        }
+    } while (n!=0);  
+    return 0;
+}
